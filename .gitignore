@@ -1,0 +1,6 @@
+#media/
+__pycache__
+venv
+.idea
+bicycle/db.sqlite3
+makemigrations/
