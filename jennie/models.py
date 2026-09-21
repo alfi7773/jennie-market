@@ -14,10 +14,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 
 class Material(models.Model):
-    
+
     class Meta:
         verbose_name = 'материал'
         verbose_name_plural = 'материалы'
@@ -29,7 +29,7 @@ class Material(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 
 
 class Color(models.Model):
@@ -47,7 +47,7 @@ class Color(models.Model):
 
     def __str__(self):
         return self.title
-    
+
 
 class Cart(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -98,6 +98,9 @@ class Product(models.Model):
     colors = models.ManyToManyField('jennie.Color', related_name='products')
     material = models.ForeignKey('jennie.Material', on_delete=models.PROTECT, related_name="products")
     image = models.ImageField('изображение', upload_to='products/', blank=True, null=True)
+    is_new = models.BooleanField('новинка',default=False)
+    is_sale = models.BooleanField('скидка',default=False)
+    is_trend = models.BooleanField('в тренде',default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

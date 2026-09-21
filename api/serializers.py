@@ -6,21 +6,21 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = '__all__'
+        exclude = ('created_at', 'updated_at')
 
 
 class MaterialSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Material
-        fields = '__all__'
+        exclude = ('created_at', 'updated_at')
 
     
 class ColorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Color
-        fields = '__all__'
+        exclude = ('created_at', 'updated_at')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -31,7 +31,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('created_at', 'updated_at')
 
 
 class ContactSerializer(serializers.ModelSerializer):
@@ -63,17 +63,28 @@ class CartItemSerializer(serializers.ModelSerializer):
 
 
 
-class CartSerializer(serializers.ModelSerializer):
+class CartItemSerializer(serializers.ModelSerializer):
+    product = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(),
+        write_only=True
+    )
 
-    items = CartItemSerializer(
-        many=True,
+    product_name = serializers.CharField(
+        source="product.title",
         read_only=True
     )
 
+    price = serializers.SerializerMethodField()
 
     class Meta:
-        model = Cart
+        model = CartItem
         fields = [
             "id",
-            "items"
+            "product",        
+            "product_name",   
+            "quantity",
+            "price",
         ]
+
+    def get_price(self, obj):
+        return obj.total_price()

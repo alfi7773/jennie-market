@@ -8,11 +8,14 @@ admin.site.register(Material)
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('id',
-                    'title', 
-                    'price', 
+                    'title',
+                    'price',
                     'country',
                     'category',
                     'material',
+                    'is_new',
+                    'is_sale',
+                    'is_trend',
                     )
 
 # Register your models here.
